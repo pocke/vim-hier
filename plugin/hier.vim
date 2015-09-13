@@ -73,12 +73,12 @@ function! s:Hier(clearonly)
 					continue
 				endif
 
-				let lastcol = col([i.lnum, '$'])
 				if i.lnum > 0 && i.col
-					let c = (lastcol == i.col) ? max([0, i.col - 2]) : i.col - 1
-					call matchadd(hi_group, '\%'.i.lnum.'l\%>' . c . 'c\%<' . lastcol . 'c')
+					let lastcol = col([i.lnum, '$'])
+					let c = (lastcol == i.col) ? max([0, i.col - 1]) : i.col
+					call matchaddpos(hi_group, [[i.lnum, c, lastcol-c]])
 				elseif i.lnum > 0
-					call matchadd(hi_group, '\%'.i.lnum.'l\%<' . lastcol . 'c')
+					call matchaddpos(hi_group, [[i.lnum]])
 				elseif i.pattern != ''
 					call matchadd(hi_group, i.pattern)
 				endif
