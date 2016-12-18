@@ -42,12 +42,12 @@ function! s:Hier(clearonly)
 	for type in ['qf', 'loc']
 		for i in s:Getlist(0, type)
 			if i.bufnr == bufnr
-				let hi_group = eval('g:hier_highlight_group_'.type)
+				let hi_group = get(g:, 'hier_highlight_group_'.type)
 				if i.type == 'I' || i.type == 'info'
-					let hi_group = eval('g:hier_highlight_group_'.type.'i')
+					let hi_group = get(g:, 'hier_highlight_group_'.type.'i')
 				elseif i.type == 'W' || i.type == 'warning'
-					let hi_group = eval('g:hier_highlight_group_'.type.'w')
-				elseif eval('g:hier_highlight_group_'.type) == ""
+					let hi_group = get(g:, 'hier_highlight_group_'.type.'w')
+				elseif get(g:, 'hier_highlight_group_'.type) == ""
 					continue
 				endif
 
