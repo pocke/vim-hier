@@ -8,35 +8,13 @@ if (exists("g:loaded_hier") && g:loaded_hier) || &cp
 endif
 let g:loaded_hier = 1
 
-let g:hier_enabled = ! exists('g:hier_enabled') ? 1 : g:hier_enabled
-
-let g:hier_highlight_group_qf = ! exists('g:hier_highlight_group_qf') ? 'SpellBad' : g:hier_highlight_group_qf
-let g:hier_highlight_group_qfw = ! exists('g:hier_highlight_group_qfw') ? 'SpellLocal' : g:hier_highlight_group_qfw
-let g:hier_highlight_group_qfi = ! exists('g:hier_highlight_group_qfi') ? 'SpellRare' : g:hier_highlight_group_qfi
-
-let g:hier_highlight_group_loc = ! exists('g:hier_highlight_group_loc') ? 'SpellBad' : g:hier_highlight_group_loc
-let g:hier_highlight_group_locw = ! exists('g:hier_highlight_group_locw') ? 'SpellLocal' : g:hier_highlight_group_locw
-let g:hier_highlight_group_loci = ! exists('g:hier_highlight_group_loci') ? 'SpellRare' : g:hier_highlight_group_loci
-
-if eval('g:hier_highlight_group_qf') != ''
-	exec "hi! link QFError    ".g:hier_highlight_group_qf
-endif
-if eval('g:hier_highlight_group_qfw') != ''
-	exec "hi! link QFWarning  ".g:hier_highlight_group_qfw
-endif
-if eval('g:hier_highlight_group_qfi') != ''
-	exec "hi! link QFInfo     ".g:hier_highlight_group_qfi
-endif
-
-if eval('g:hier_highlight_group_loc') != ''
-	exec "hi! link LocError   ".g:hier_highlight_group_loc
-endif
-if eval('g:hier_highlight_group_locw') != ''
-	exec "hi! link LocWarning ".g:hier_highlight_group_locw
-endif
-if eval('g:hier_highlight_group_loci') != ''
-	exec "hi! link LocInfo    ".g:hier_highlight_group_loci
-endif
+let g:hier_enabled = get(g:, 'hier_enabled', 1)
+let g:hier_highlight_group_qf  = get(g:, 'hier_highlight_group_qf', 'QFError')
+let g:hier_highlight_group_qfw = get(g:, 'hier_highlight_group_qfw', 'QFWarning')
+let g:hier_highlight_group_qfi = get(g:, 'hier_highlight_group_qfi', 'QFInfo')
+let g:hier_highlight_group_loc	= get(g:, 'hier_highlight_group_loc', 'LocError')
+let g:hier_highlight_group_locw = get(g:, 'hier_highlight_group_locw', 'LocWarning')
+let g:hier_highlight_group_loci = get(g:, 'hier_highlight_group_loci', 'LocInfo')
 
 function! s:Getlist(winnr, type)
 	if a:type == 'qf'
@@ -48,7 +26,7 @@ endfunction
 
 function! s:Hier(clearonly)
 	for m in getmatches()
-		for h in ['QFError', 'QFWarning', 'QFInfo', 'LocError', 'LocWarning', 'LocInfo']
+		for h in [g:hier_highlight_group_qf, g:hier_highlight_group_qfw, g:hier_highlight_group_qfi, g:hier_highlight_group_loc, g:hier_highlight_group_locw, g:hier_highlight_group_loci]
 			if m.group == h
 				call matchdelete(m.id)
 			endif
@@ -64,11 +42,11 @@ function! s:Hier(clearonly)
 	for type in ['qf', 'loc']
 		for i in s:Getlist(0, type)
 			if i.bufnr == bufnr
-				let hi_group = 'QFError'
+				let hi_group = eval('g:hier_highlight_group_'.type)
 				if i.type == 'I' || i.type == 'info'
-					let hi_group = 'QFInfo'
+					let hi_group = eval('g:hier_highlight_group_'.type.'i')
 				elseif i.type == 'W' || i.type == 'warning'
-					let hi_group = 'QFWarning'
+					let hi_group = eval('g:hier_highlight_group_'.type.'w')
 				elseif eval('g:hier_highlight_group_'.type) == ""
 					continue
 				endif
