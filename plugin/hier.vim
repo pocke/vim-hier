@@ -9,12 +9,12 @@ endif
 let g:loaded_hier = 1
 
 let g:hier_enabled = get(g:, 'hier_enabled', 1)
-let g:hier_highlight_group_qf  = get(g:, 'hier_highlight_group_qf', 'QFError')
-let g:hier_highlight_group_qfw = get(g:, 'hier_highlight_group_qfw', 'QFWarning')
-let g:hier_highlight_group_qfi = get(g:, 'hier_highlight_group_qfi', 'QFInfo')
-let g:hier_highlight_group_loc	= get(g:, 'hier_highlight_group_loc', 'LocError')
-let g:hier_highlight_group_locw = get(g:, 'hier_highlight_group_locw', 'LocWarning')
-let g:hier_highlight_group_loci = get(g:, 'hier_highlight_group_loci', 'LocInfo')
+let g:hier_highlight_group_qf  = get(g:, 'hier_highlight_group_qf', 'SpellBad')
+let g:hier_highlight_group_qfw = get(g:, 'hier_highlight_group_qfw', 'SpellLocal')
+let g:hier_highlight_group_qfi = get(g:, 'hier_highlight_group_qfi', 'SpellRare')
+let g:hier_highlight_group_loc	= get(g:, 'hier_highlight_group_loc', 'SpellBad')
+let g:hier_highlight_group_locw = get(g:, 'hier_highlight_group_locw', 'SpellLocal')
+let g:hier_highlight_group_loci = get(g:, 'hier_highlight_group_loci', 'SpellRare')
 
 function! s:Getlist(winnr, type)
 	if a:type == 'qf'
